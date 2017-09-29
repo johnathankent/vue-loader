@@ -87,9 +87,10 @@ DOM content created with `v-html` are not affected by scoped styles, but you can
 ## Custom Shadow DOM Elements (true style encapsulation)
 
 True encapsulation where styles do not leak in or out require custom web component elements which use Shadow DOM (not yet fully supported by browsers). Here is an example of how to add custom elements to your Vue application: https://github.com/karol-f/vue-custom-element.
-## Keep in Mind
 
-### 1. Understand CSS Cascading inheritance and specificity.
+# Styleguide
+
+## 1. Understand CSS Cascading inheritance and specificity.
 
 Styles are inherited and cascade as applied to the computed DOM and should not be confused with applying only to the Vue template file.
 - [Read about Cascade and Inheritance from Mozilla](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Cascade_and_inheritance)
@@ -97,18 +98,17 @@ Styles are inherited and cascade as applied to the computed DOM and should not b
 
 > **Troubleshooting**: Check the compiled style rules in the browser dev tools to determine the conflicting cascade **inheritance** and **specificity** on the computed DOM.
 
-### 2. Scoped styles do not eliminate the need for classes.
+## 2. Scoped styles do not eliminate the need for classes.
   Due to the way browsers render various CSS selectors, `p { color: red }` will be many times slower when scoped (i.e. when combined with an attribute selector). If you use classes or ids instead, such as in `.example { color: red }`, then you virtually eliminate that performance hit. [Here's a playground](http://stevesouders.com/efws/css-selectors/csscreate.php) where you can test the differences yourself.
 
-### 3. Be careful with descendant selectors in recursive components!
+## 3. Be careful with descendant selectors in recursive components!
 For a CSS rule with the selector `.a .b`, if the element that matches `.a` contains a recursive child component, then all `.b` in that child component will be matched by the rule.
 
-### 4. Establish a pattern
+## 4. Style patterns
 
 Style conflicts from parent to nested child can occur _with or without_ the parent component adding data-scoping attribute to the child root node. Therefore, it may be easier to always assume that parent's scoped data-scoping attribute may be applied at anytime.
 
-#### A simple wrapper pattern
-> **Note**: This does not solve conflicts from cascading or inherited styles. It does help establish a pattern where root nodes in components are clearly for parents to add layout.
+### A simple wrapper
 
 Since data-scoping attribute makes the CSS more specific, overriding style conflicts requires even more specificity. A simple method to avoid common style conflicts on the component root node, is to use a wrapper node where the parent can apply style:
 
@@ -121,7 +121,7 @@ Since data-scoping attribute makes the CSS more specific, overriding style confl
 </template>
 ```
 
-#### Using selectors to communicate patterns
+### Using selectors to communicate a pattern
 ``` html
 <!-- Vue component template: FOO.vue -->
 <template>
@@ -142,9 +142,9 @@ Since data-scoping attribute makes the CSS more specific, overriding style confl
 </style>
 ```
 
-#### Examples patterns for styling inside Vue components:
+### Example patterns
 
-##### For large projects or teams, dynamic templates, most developers:
+#### For large projects or teams, dynamic templates, most developers:
 
 ```markdown
 # When adding styles to Vue Component Templates:
@@ -162,7 +162,7 @@ Prevent conficting rules of parent and child components to avoid CSS selector sp
     - **Exception:** Layout styles using non-common classnames and resolve only to child component's root node.
 ```
 
-##### For small projects or teams, or CSS-gurus:
+#### For small projects or teams, or CSS-gurus:
 
 ```markdown
 # When adding styles to Vue Component Templates:
