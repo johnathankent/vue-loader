@@ -116,23 +116,31 @@ Since data-scoping attribute makes the CSS more specific, overriding style confl
 <!-- Vue component template -->
 <template>
   <div> <!-- <<== Assume scoped parents will use this for layout. -->
-    <div class="example">hi</div> <!-- <<== Apply styles for this component here. -->
-    <child-component id="foo" class="layout-from-PARENT"></child-component> <!-- <<== Only apply layout here. -->
+    <div class="example">hi</div> <!-- <<== Use all nested nodes for selectors. -->
+  </div>
+</template>
+```
+
+#### Using selectors to communicate patterns
+``` html
+<!-- Vue component template: FOO.vue -->
+<template>
+  <div>
+    <div class="example">hi</div>
+    <child-component id="child" class="layout-from-FOO"></child-component> <!-- <<== Only apply layout here. -->
   </div>
 </template>
 
 <style>
   /* global styles */
-  .example { /* styles */ }
-  .layout { /* layout styles only */ }
+  .layout-from-FOO { /* use for layout only, applies to all rendered elements with this class */ }
 </style>
 
 <style scoped>
   /* These cascade only to to children elements of this component */
-  .layout { /* layout styles only; applies only to children components nested in this one. */ }
+  .layout-from-FOO { /* use for layout only; applies only to this child component. */ }
 </style>
 ```
-
 
 #### Examples patterns for styling inside Vue components:
 
